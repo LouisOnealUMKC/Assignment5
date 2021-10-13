@@ -1,0 +1,108 @@
+import string
+IndexA = string.ascii_uppercase.index('A')
+print(IndexA)
+
+LibraryCard = ''
+
+def GetLibraryCard():
+    LibraryCard = input('Enter Library Card')
+    return str(LibraryCard)
+
+def get_school(LibraryCard):
+
+    school = ''
+    LibraryCard = str(LibraryCard)
+    indexValue = int(LibraryCard[5])
+
+    if(indexValue == 1):
+        school = 'School of Computing and Engineering SCE'
+    elif(indexValue == 2):
+        school = 'School of Law'
+    elif(indexValue == 3):
+        school = 'College of Arts and Sciences'
+    else:
+        school = 'Invalid School'
+    return school
+
+def get_grade(LibraryCard):
+    indexValue = int(LibraryCard[6])
+    grade = ''
+    if(indexValue == 1):
+        grade = 'Freshman'
+    if(indexValue == 2):
+        grade = 'Sophomore'
+    if(indexValue == 3):
+        grade = 'Junior'
+    if(indexValue == 4):
+        grade = 'Senior'
+    else:
+        grade = 'Invalid Grade'
+    return grade
+
+def character_value(singleChar):
+    return string.ascii_uppercase.index(singleChar)
+
+def position_value(value, index):
+    return value * (index + 1)
+
+def get_check_digit(libraryCard):
+    LibraryCardSum = (position_value(character_value(LibraryCard[0]),0)
+                      + position_value(character_value(LibraryCard[1]),1)
+                      + position_value(character_value(LibraryCard[2]),2)
+                      + position_value(character_value(LibraryCard[3]),3)
+                      + position_value(character_value(LibraryCard[4]),4)
+                      + position_value(LibraryCard[5],5)
+                      + position_value(LibraryCard[6],6)
+                      + position_value(LibraryCard[7],7)
+                      + position_value(LibraryCard[8],8)
+                      + position_value(LibraryCard[9],9)
+                      )
+    return LibraryCardSum % 10
+
+def verify_check_digit(LibraryCard):
+
+    LibraryCard = str(LibraryCard)
+
+    valid = True
+    ErrorString = ''
+
+    if (len(LibraryCard) != 10):
+        valid = False
+        ErrorString = "The length of the number given must be 10"
+        return (valid, ErrorString)
+
+    for character in LibraryCard[0:4:1]:
+        if not character.isalpha():
+            valid = False
+            ErrorString = "The first 5 characters must be A-Z, the invalid character is at {} is {}".format(character, LibraryCard[character])
+            return (valid, ErrorString)
+
+    for character in LibraryCard[7:9:1]:
+        if not character.isdigit():
+            valid = False
+            ErrorString = "The last 3 characters must be 0-9, the invalid character is at {} is {}".format(character, LibraryCard[character])
+            return (valid, ErrorString)
+
+    if LibraryCard[5] != 1 or 2 or 3:
+        valid = False
+        ErrorString = "The sixth character must be 1 2 or 3"
+        return (valid, ErrorString)
+
+    if LibraryCard[6] != 1 or 2 or 3 or 4:
+        valid = False
+        ErrorString = "The seventh character must be 1 2 3 or 4"
+        return (valid, ErrorString)
+
+    if LibraryCard[9] != get_check_digit(LibraryCard):
+        valid = False
+        ErrorString = "Check Digit {} does not match calculated value {}.".format(LibraryCard[9], get_check_digit(LibraryCard))
+        return (valid, ErrorString)
+
+    return (valid,ErrorString)
+
+if __name__ == '__main__':
+    LibraryCard = GetLibraryCard()
+
+    verify_check_digit(LibraryCard)
+    print(get_school(LibraryCard))
+    print(get_grade(LibraryCard))
