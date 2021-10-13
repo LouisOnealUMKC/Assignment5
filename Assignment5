@@ -1,3 +1,5 @@
+
+
 import string
 IndexA = string.ascii_uppercase.index('A')
 print(IndexA)
