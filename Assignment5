@@ -12,9 +12,12 @@ def GetLibraryCard():
 
 def get_school(LibraryCard):
 
+    indexValue = 0
+
     school = ''
     LibraryCard = str(LibraryCard)
-    indexValue = int(LibraryCard[5])
+    if(len(LibraryCard)) > 5:
+        indexValue = int(LibraryCard[5])
 
     if(indexValue == 1):
         school = 'School of Computing and Engineering SCE'
@@ -27,7 +30,9 @@ def get_school(LibraryCard):
     return school
 
 def get_grade(LibraryCard):
-    indexValue = int(LibraryCard[6])
+    indexValue = 0
+    if(len(LibraryCard)) > 6:
+        indexValue = int(LibraryCard[6])
     grade = ''
     if(indexValue == 1):
         grade = 'Freshman'
@@ -73,9 +78,10 @@ def verify_check_digit(LibraryCard):
         ErrorString = "The length of the number given must be 10"
         return (valid, ErrorString)
 
+
     for character in LibraryCard[0:4:1]:
         if not character.isalpha():
-            valid = False
+            valid = False1111
             ErrorString = "The first 5 characters must be A-Z, the invalid character is at {} is {}".format(character, LibraryCard[character])
             return (valid, ErrorString)
 
@@ -103,8 +109,8 @@ def verify_check_digit(LibraryCard):
     return (valid,ErrorString)
 
 if __name__ == '__main__':
-    LibraryCard = GetLibraryCard()
-
-    verify_check_digit(LibraryCard)
-    print(get_school(LibraryCard))
-    print(get_grade(LibraryCard))
+    while True:
+        LibraryCard = GetLibraryCard()
+        verify_check_digit(LibraryCard)
+        print(get_school(LibraryCard))
+        print(get_grade(LibraryCard))
